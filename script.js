@@ -4,23 +4,32 @@ const CORRECT_PASSWORD = "love";
 // --- QUIZ DATA ---
 const quizData = [
     {
-        question: "বায়ুমণ্ডলের কোন স্তরে কৃত্রিম উপগ্রহ থাকে?",
-        options: ["এক্সোস্ফিয়ার", "থার্মোস্ফিয়ার", "মেসোস্ফিয়ার", "স্ট্র্যাটোস্ফিয়ার"]
-    },
-    {
-        question: "বায়ুতে যে গ্যাসটির পরিমাণ সবচেয়ে বেশি তা হল?",
-        options: ["N2 (নাইট্রোজেন)", "O2 (অক্সিজেন)", "O3 (ওজোন)", "H2 (হাইড্রোজেন)"]
-    },
-    {
         question: "Ajke ki bar?",
-        options: ["Rose Day 🌹", "Propose Day 💍", "Chocolate Day 🍫", "Sunday 🌞"]
+        options: ["Bolbo na", "Janina", "Sombar", "Robibar"]
     },
     {
-        question: "Debosmit kemon chele?",
-        options: ["Faltu 😒", "Khub faltu 😤", "Thikthak 😐", "Khub bhalo 🥺❤️"]
+        question: "Ekhon ki korchis?",
+        options: ["Kichuna", "Bose achi", "Porchi", "Reels dekhchi"]
+    },
+    {
+        question: "Amake koto ta bhalobasis?😁",
+        options: ["Olpo", "Bhalo basiy na", "Onekk", "Prochur....💗♾️"]
+    },
+    {
+        question: "Rag korchis?",
+        options: ["Bolbo na", "Janina", "Hmm", "Ekdomy na"]
+    },
+    {
+        question: "Birokti Hochhis?",
+        options: ["Bolbo na", "Janina", "Hmm", "Ekdomy na"]
+    },
+    {
+        question: "Ami kemon?",
+        options: ["Faltu", "Khub faltu 😤", "Thikthak 😐", "Khub bhalo ❤️"]
     }
-];
 
+
+];
 // --- DOM ELEMENTS ---
 const loginScreen = document.getElementById("login-screen");
 const quizScreen = document.getElementById("quiz-screen");
@@ -74,10 +83,7 @@ function loadQuiz() {
     quizQuestion.innerText = currentData.question;
     progress.innerText = `Level ${currentQuiz + 1}/${quizData.length}`;
     
-    // Clear old options
     optionContainer.innerHTML = "";
-
-    // Create buttons dynamically
     currentData.options.forEach((option) => {
         const button = document.createElement("button");
         button.innerText = option;
@@ -88,23 +94,15 @@ function loadQuiz() {
 }
 
 function handleAnswer() {
-    // 1. Determine the message
     let msg = "";
-    
-    // Check if it's the LAST question (Debosmit kemon chele)
     if (currentQuiz === quizData.length - 1) {
         msg = "Achhaaaaaaaa 😏❤️🙈";
     } else {
-        msg = "Answer successfully submitted ✅";
+        msg = "Achha";
     }
-
-    // 2. Show Toast
     showToast(msg);
-
-    // 3. Wait 1.5 seconds, then move to next
     setTimeout(() => {
         currentQuiz++;
-
         if (currentQuiz < quizData.length) {
             loadQuiz();
         } else {
@@ -138,7 +136,7 @@ yesBtn.addEventListener("click", () => {
     }
 });
 
-// --- RUNAWAY BUTTON LOGIC (Shared) ---
+// --- RUNAWAY BUTTON LOGIC (Fixed for Default Position) ---
 function setupRunawayButton(btn) {
     const moveBtn = () => {
         const containerWidth = window.innerWidth;
@@ -146,13 +144,13 @@ function setupRunawayButton(btn) {
         const btnWidth = btn.offsetWidth;
         const btnHeight = btn.offsetHeight;
         
-        // Keep inside screen
         const maxLeft = containerWidth - btnWidth - 20;
         const maxTop = containerHeight - btnHeight - 20;
         
         const randomX = Math.max(10, Math.random() * maxLeft);
         const randomY = Math.max(10, Math.random() * maxTop);
         
+        // This makes it break out of the flex layout and jump
         btn.style.position = "fixed"; 
         btn.style.left = randomX + "px";
         btn.style.top = randomY + "px";
