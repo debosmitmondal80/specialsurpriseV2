@@ -1,7 +1,5 @@
 ﻿body {
-    background: linear-gradient(120deg, #ffe6e6, #ffd6eb, #ffe6e6);
-    background-size: 250% 250%;
-    animation: gradientShift 12s ease infinite;
+    background-color: #ffe6e6;
     font-family: 'Arial', sans-serif;
     margin: 0;
     height: 100vh;
@@ -9,46 +7,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    touch-action: none;
+    touch-action: none; 
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.aurora {
-    position: fixed;
-    inset: -20%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 20% 30%, rgba(255, 126, 185, 0.35), transparent 35%),
-        radial-gradient(circle at 80% 70%, rgba(255, 87, 87, 0.25), transparent 30%),
-        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.25), transparent 45%);
-    filter: blur(20px);
-    animation: auroraFlow 14s ease-in-out infinite alternate;
-}
-
-@keyframes auroraFlow {
-    from { transform: translateX(-4%) translateY(-2%) scale(1); }
-    to { transform: translateX(4%) translateY(2%) scale(1.08); }
-}
-
-/* --- Floating Hearts Background --- */
+/* --- Floating Hearts --- */
 .hearts {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    overflow: hidden; z-index: 1; pointer-events: none;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; z-index: 0; pointer-events: none;
 }
 .hearts div {
     position: absolute; display: block;
     width: 20px; height: 20px; background: rgba(255, 255, 255, 0.5);
-    animation: floatUp 25s linear infinite;
-    bottom: -150px; font-size: 2rem;
+    animation: floatUp 25s linear infinite; bottom: -150px; font-size: 2rem;
 }
-/* Randomized positions for hearts */
 .hearts div:nth-child(1) { left: 25%; animation-delay: 0s; }
 .hearts div:nth-child(2) { left: 10%; animation-delay: 2s; animation-duration: 12s; }
 .hearts div:nth-child(3) { left: 70%; animation-delay: 4s; }
@@ -68,62 +39,47 @@
     transition: opacity 0.5s ease;
     z-index: 2;
 }
+.hidden { display: none !important; opacity: 0; pointer-events: none; }
 
-.hidden {
-    display: none !important;
-    opacity: 0;
-    pointer-events: none;
+/* --- Memory Game Styles (New) --- */
+.memory-grid {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    perspective: 1000px;
+    margin: 0 auto;
 }
-
-/* --- Massive Heart Animation (Delay Screen) --- */
-.heart-loader {
+.card {
+    width: 23%; /* 4 cards per row */
+    height: 23%;
+    margin: 1%;
     position: relative;
-    width: 100px; height: 100px;
-    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
 }
-.heart-shape {
-    width: 100px; height: 100px;
-    background-color: #ff4d4d;
-    position: relative;
-    transform: rotate(45deg);
-    animation: heartBeat 1.2s infinite;
-    box-shadow: 0 0 40px #ff4d4d;
-}
-.heart-shape::before, .heart-shape::after {
-    content: "";
-    width: 100px; height: 100px;
-    background-color: #ff4d4d;
-    border-radius: 50%;
-    position: absolute;
-}
-.heart-shape::before { top: -50px; left: 0; }
-.heart-shape::after { top: 0; left: -50px; }
+.card.flip { transform: rotateY(180deg); }
 
-@keyframes heartBeat {
-    0% { transform: scale(1) rotate(45deg); }
-    15% { transform: scale(1.3) rotate(45deg); }
-    30% { transform: scale(1) rotate(45deg); }
-    45% { transform: scale(1.3) rotate(45deg); }
-    100% { transform: scale(1) rotate(45deg); }
-}
-
-.loading-text {
-    margin-top: 60px;
-    font-size: 1.5rem; color: #d32f2f; font-weight: bold;
-    animation: fadeInOut 2s infinite;
+.front-face, .back-face {
+    width: 100%; height: 100%;
     position: absolute;
-    width: 200px;
-    left: -50px;
-    top: 50px;
+    border-radius: 5px;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 2rem;
+    backface-visibility: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-@keyframes fadeInOut { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+.front-face { background: white; transform: rotateY(180deg); }
+.back-face { background: #ff4d4d; color: white; font-size: 1.5rem; }
+
+.hint-text { margin-top: 15px; color: #d32f2f; font-size: 0.9rem; }
 
 /* --- Login Box --- */
 .login-box {
-    background: rgba(255, 255, 255, 0.88); padding: 30px; border-radius: 20px;
+    background: white; padding: 30px; border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
     width: 80%; max-width: 300px;
-    animation: cardFloat 4s ease-in-out infinite;
 }
 .login-box h2 { color: #d32f2f; margin-bottom: 10px; }
 .hint { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
@@ -140,64 +96,22 @@ input:focus { border-color: #ff4d4d; }
 }
 .error { color: red; font-size: 0.9rem; margin-top: 10px; min-height: 20px; }
 
-/* --- Quiz Styles --- */
-.quiz-options {
-    display: flex; flex-direction: column; gap: 10px;
-    margin-top: 20px; width: 100%;
+/* Shake Animation */
+@keyframes shake {
+    0% { transform: translateX(0); } 25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); } 75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
 }
-.progress-track {
-    width: 100%;
-    height: 10px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.7);
-    overflow: hidden;
-    margin: 10px 0 5px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
-}
-
-.progress-bar {
-    width: 0;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #ff7baf, #ff4d4d);
-    box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-    transition: width 0.35s ease;
-}
-
-.quiz-btn {
-    background-color: white; border: 2px solid #ff4d4d; color: #ff4d4d;
-    padding: 15px; border-radius: 10px; font-size: 1rem;
-    cursor: pointer; transition: 0.2s; width: 100%;
-}
-.quiz-btn:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 10px 20px rgba(255, 77, 77, 0.18);
-    background: rgba(255, 255, 255, 0.95);
-}
-.quiz-btn:active { background-color: #ffcccc; }
-#progress { margin-top: 20px; color: #666; font-size: 0.9rem; }
+.shake-animation { animation: shake 0.4s ease-in-out; border: 2px solid red !important; }
 
 /* --- General Styles --- */
-.container {
-    text-align: center; width: 90%; max-width: 400px;
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(8px);
-    padding: 28px 20px;
-    border-radius: 24px;
-    box-shadow: 0 20px 45px rgba(189, 68, 103, 0.15);
-    animation: cardFloat 5s ease-in-out infinite;
-}
-@keyframes cardFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
+.container { text-align: center; width: 90%; max-width: 400px; }
 h1 { color: #d32f2f; font-size: 1.8rem; margin: 15px 0; line-height: 1.3; }
 h2 { color: #d32f2f; font-size: 1.5rem; }
 .bengali-text { font-style: italic; font-size: 1.4rem; color: #d32f2f; }
 img { width: 80%; max-width: 250px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-/* --- Buttons Group --- */
+/* --- Buttons --- */
 .btn-group {
     width: 100%; display: flex; justify-content: center;
     align-items: center; gap: 20px; margin-top: 20px;
@@ -206,11 +120,6 @@ button {
     font-size: 1.2rem; padding: 12px 25px; border: none;
     border-radius: 50px; cursor: pointer; font-weight: bold;
     -webkit-tap-highlight-color: transparent;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.22);
 }
 #yesBtn, #permissionYes { background-color: #ff4d4d; color: white; z-index: 10; }
 #noBtn, #permissionNo {
@@ -218,6 +127,7 @@ button:hover {
     transition: all 0.3s ease;
 }
 
+<<<<<<< Updated upstream
 
 
 /* --- Heart Catch Game --- */
@@ -276,6 +186,31 @@ button:hover {
         opacity: 0.95;
     }
 }
+=======
+/* --- Suspense Loader --- */
+.heart-loader { position: relative; width: 100px; height: 100px; text-align: center; }
+.heart-shape {
+    width: 100px; height: 100px; background-color: #ff4d4d;
+    position: relative; transform: rotate(45deg);
+    animation: heartbeat 1.2s infinite; box-shadow: 0 0 40px #ff4d4d;
+}
+.heart-shape::before, .heart-shape::after {
+    content: ""; width: 100px; height: 100px; background-color: #ff4d4d;
+    border-radius: 50%; position: absolute;
+}
+.heart-shape::before { top: -50px; left: 0; }
+.heart-shape::after { top: 0; left: -50px; }
+@keyframes heartbeat {
+    0% { transform: rotate(45deg) scale(1); } 15% { transform: rotate(45deg) scale(1.3); }
+    30% { transform: rotate(45deg) scale(1); } 45% { transform: rotate(45deg) scale(1.3); }
+    100% { transform: rotate(45deg) scale(1); }
+}
+.loading-text {
+    margin-top: 60px; font-size: 1.5rem; color: #d32f2f; font-weight: bold;
+    position: absolute; width: 200px; left: -50px; top: 50px; animation: fadeText 2s infinite;
+}
+@keyframes fadeText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+>>>>>>> Stashed changes
 
 /* --- Message Box --- */
 .hidden-message {
@@ -295,24 +230,3 @@ button:hover {
     opacity: 0; transition: opacity 0.5s, bottom 0.5s;
 }
 #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-
-#sparkle-layer {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-}
-
-.sparkle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
-    animation: sparkleFade 850ms ease-out forwards;
-}
-
-@keyframes sparkleFade {
-    from { transform: scale(0.2); opacity: 1; }
-    to { transform: scale(2.2); opacity: 0; }
-}
